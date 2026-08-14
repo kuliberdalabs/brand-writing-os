@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+.brand-writing-os/
+.agents/
+.claude/
+pilots/
+.eval/

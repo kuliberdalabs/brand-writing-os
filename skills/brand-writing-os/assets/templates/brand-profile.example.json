@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "brand": {
+    "name": "Example Advisory",
+    "language": "pl",
+    "primary_audience": [
+      "właściciele małych i średnich firm"
+    ],
+    "positioning": "Pomaga firmom upraszczać procesy przed wdrożeniem automatyzacji.",
+    "speaker": "firma",
+    "perspective": "pierwsza osoba liczby mnogiej"
+  },
+  "voice": {
+    "traits": [
+      "konkretny: rekomendacja pojawia się wcześnie",
+      "spokojny: pokazuje ograniczenia bez straszenia",
+      "partnerski: pisze do doświadczonego właściciela firmy"
+    ],
+    "avoid_traits": [
+      "napuszony",
+      "mentorski",
+      "nadmiernie entuzjastyczny"
+    ],
+    "term_replacements": {
+      "wdrożenie": "projekt",
+      "użytkownik końcowy": "osoba, która korzysta z procesu"
+    },
+    "forbidden_phrases": [
+      "rewolucyjne rozwiązanie",
+      "gwarantowany wynik"
+    ],
+    "forbidden_regex": [],
+    "watch_regex": [
+      "(?i)w dzisiejszych czasach",
+      "(?i)warto (?:zauważyć|podkreślić)"
+    ],
+    "forbidden_characters": [],
+    "required_phrases": []
+  },
+  "boundaries": {
+    "forbidden_topics": [],
+    "forbidden_names": [],
+    "never_borrow_other_personas": true
+  },
+  "proof": {
+    "allow_unsourced_lived_details": false,
+    "allow_composite_quotes": false,
+    "current_pricing_source": "",
+    "current_offer_source": ""
+  },
+  "channels": {
+    "blog": {
+      "reader_action": "zrozumieć decyzję i sprawdzić, czy pasuje do firmy",
+      "cta_policy": "jedno naturalne zaproszenie do rozmowy, bez presji",
+      "word_range": [
+        700,
+        1200
+      ]
+    },
+    "linkedin": {
+      "reader_action": "zatrzymać jedną praktyczną obserwację",
+      "cta_policy": "opcjonalny",
+      "word_range": [
+        120,
+        300
+      ]
+    }
+  }
+}

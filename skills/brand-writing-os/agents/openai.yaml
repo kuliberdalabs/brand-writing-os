@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brand Writing OS"
+  short_description: "Evidence-first brand writing and claim auditing"
+  default_prompt: "Use $brand-writing-os to draft and audit evidence-backed copy in our brand voice."

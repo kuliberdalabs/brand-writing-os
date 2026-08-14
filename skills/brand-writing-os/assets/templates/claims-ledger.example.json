@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "approved_claims": [
+    {
+      "id": "pilot-triage-001",
+      "statement": "W czterotygodniowym pilocie średni czas ręcznej obsługi jednego zgłoszenia spadł z 18 do 11 minut.",
+      "evidence": "../sources/pilot-summary.md#czas-obslugi",
+      "owner": "client",
+      "status": "approved",
+      "valid_until": null,
+      "allowed_numbers": [
+        "4 tygodnie",
+        "18 minut",
+        "11 minut"
+      ],
+      "allowed_quotes": [],
+      "restrictions": "Nie przedstawiać jako gwarancji ani wyniku typowego dla każdego klienta."
+    }
+  ]
+}

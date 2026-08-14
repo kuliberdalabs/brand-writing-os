@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "approved_claims": [
+    {
+      "id": "anonymous-pilot-001",
+      "statement": "During a four-week pilot on one support queue, average manual handling time fell from 18 to 11 minutes.",
+      "evidence": "source.md#pilot-result",
+      "owner": "example",
+      "status": "approved",
+      "valid_until": null,
+      "allowed_numbers": [
+        "18 minutes",
+        "11 minutes"
+      ],
+      "allowed_quotes": [],
+      "restrictions": "Describe only this pilot. Do not present the result as typical or guaranteed."
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "brand-writing-os",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Portable Agent Skill for evidence-backed brand writing and editorial QA.",
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "demo": "python3 demo/run_demo.py",
+    "validate:skill": "python3 scripts/validate_skill.py",
+    "check": "npm run validate:skill && npm test && npm run demo"
+  },
+  "keywords": [
+    "agent-skills",
+    "codex",
+    "claude-code",
+    "brand-voice",
+    "copywriting",
+    "editorial-qa"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.20.0"
+  }
+}

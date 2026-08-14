@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "brand": {
+    "name": "Example Operations",
+    "language": "en",
+    "primary_audience": [
+      "operations leaders"
+    ],
+    "speaker": "company"
+  },
+  "voice": {
+    "traits": [
+      "direct: state the observed result before interpretation",
+      "measured: name limits and avoid guarantees"
+    ],
+    "forbidden_phrases": [
+      "guaranteed result"
+    ],
+    "forbidden_regex": [],
+    "watch_regex": [],
+    "forbidden_characters": [],
+    "required_phrases": [],
+    "term_replacements": {}
+  },
+  "boundaries": {
+    "forbidden_topics": [],
+    "forbidden_names": [],
+    "never_borrow_other_personas": true
+  },
+  "channels": {}
+}
