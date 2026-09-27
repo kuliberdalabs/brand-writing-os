@@ -90,6 +90,42 @@ class AuditCopyTests(unittest.TestCase):
             self.assertEqual(strict.returncode, 1)
             self.assertIn("unverified-number", normal.stdout)
 
+    def test_polish_pack_reports_tells_with_correct_lines(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            draft = Path(directory) / "draft.md"
+            draft.write_text(
+                "Nagłówek.\nW DZISIEJSZYCH CZASACH oferujemy kompleksowe rozwiązania.\n"
+                "To dopiero początek.\n",
+                encoding="utf-8",
+            )
+            result = self.run_audit(str(draft), "--language", "pl", "--format", "json")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            payload = json.loads(result.stdout)
+            tells = [issue for issue in payload["issues"] if issue["code"] == "polish-tell"]
+            self.assertEqual([issue["line"] for issue in tells], [2, 2, 3])
+            self.assertTrue(all(issue["level"] == "warning" for issue in tells))
+
+    def test_polish_pack_is_opt_in_and_strict_can_fail(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            draft = Path(directory) / "draft.md"
+            draft.write_text("Warto zauważyć, że terminarz jest gotowy.\n", encoding="utf-8")
+            default = self.run_audit(str(draft))
+            polish = self.run_audit(str(draft), "--language", "pl", "--strict")
+            self.assertEqual(default.returncode, 0, default.stdout + default.stderr)
+            self.assertNotIn("polish-tell", default.stdout)
+            self.assertEqual(polish.returncode, 1)
+            self.assertIn("polish-tell", polish.stdout)
+
+    def test_polish_pack_does_not_flag_clean_copy(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            draft = Path(directory) / "draft.md"
+            draft.write_text(
+                "Recepcja zapisuje wizyty w terminarzu. Wieczorem sprawdza jutrzejszy grafik.\n",
+                encoding="utf-8",
+            )
+            result = self.run_audit(str(draft), "--language", "pl", "--strict")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_decimal_does_not_approve_a_different_whole_number(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

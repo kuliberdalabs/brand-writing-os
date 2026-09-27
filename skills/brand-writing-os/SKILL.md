@@ -32,6 +32,8 @@ Use a neutral voice and label the gap if a profile is unavailable. Do not infer 
 
 Read [profile-and-onboarding.md](references/profile-and-onboarding.md) when creating or updating a client profile. Read [sources-and-claims.md](references/sources-and-claims.md) whenever the task contains factual or commercial claims. Read [channel-patterns.md](references/channel-patterns.md) only for the requested channel. Read [editorial-rubric.md](references/editorial-rubric.md) before the final audit. Use [examples.md](references/examples.md) when the distinction between human detail and fabricated detail is unclear.
 
+For Polish copy, also read [polish-language-pack.md](references/polish-language-pack.md) before the human edit. Its phrase list is a review aid; the client's profile and source evidence still govern the final wording.
+
 ## Execute the workflow
 
 ### 1. Freeze the brief
@@ -97,6 +99,8 @@ python3 scripts/audit_copy.py draft.md \
   --claims path/to/claims-ledger.json \
   --source path/to/source.md
 ```
+
+For Polish drafts, add `--language pl` to flag common editorial tells as warnings.
 
 ### 7. Deliver with a short receipt
 

@@ -18,6 +18,7 @@ OS also asks: "What is this allowed to claim, and where is the evidence?"
 - channel guidance for articles, newsletters, landing pages, case studies,
   email, and social posts;
 - a dependency-free scanner for mechanical claim and editorial risks;
+- a Polish language pack with editorial guidance and optional scanner warnings;
 - an anonymous, reproducible before/after demo.
 
 The core is an Agent Skill, not an npm library or hosted service. The
@@ -34,7 +35,7 @@ Run from the project where the skill should be available:
 
 ```bash
 DO_NOT_TRACK=1 npx --yes skills@1.5.19 add \
-  https://github.com/kuliberdalabs/brand-writing-os/tree/v0.1.0 \
+  https://github.com/kuliberdalabs/brand-writing-os/tree/main \
   --skill brand-writing-os \
   -a codex -a claude-code -y
 ```
@@ -67,6 +68,25 @@ and the approved files in sources/ to draft and audit the article.
 
 The skill returns the copy, sources used, unresolved decisions, and one of
 three audit states: `pass`, `pass with warnings`, or `blocked`.
+
+## Polish language pack in 0.2.0
+
+For Polish copy, the skill loads
+[`polish-language-pack.md`](skills/brand-writing-os/references/polish-language-pack.md)
+for phrase, rhythm, and structure review. Its examples are explicitly
+illustrative. The pack keeps evidence and client voice rules from the core
+workflow.
+
+To include built-in Polish phrase checks in a direct scan, add `--language pl`:
+
+```bash
+python3 .agents/skills/brand-writing-os/scripts/audit_copy.py draft.md \
+  --language pl --strict
+```
+
+These checks emit `polish-tell` warnings. Review each match in context; the
+scanner does not rewrite the draft or decide whether a phrase is appropriate.
+Without `--language pl`, existing scans keep their previous behavior.
 
 ## Evidence workflow
 
@@ -117,6 +137,7 @@ python3 .agents/skills/brand-writing-os/scripts/audit_copy.py draft.md \
 The scanner deterministically checks configured phrases and boundaries,
 placeholders, numeric and quotation provenance, evidence file availability,
 word ranges, repeated paragraph shapes, and similar batch openings.
+With `--language pl`, it also flags selected Polish editorial tells.
 
 It does **not** prove semantic accuracy, establish legal or regulatory
 compliance, decide whether an inference is fair, or determine whether prose

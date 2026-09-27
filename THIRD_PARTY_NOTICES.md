@@ -6,6 +6,8 @@ Brand Writing OS was informed by the general subtractive editing approach in
 Hardik Pandya's `stop-slop`. This distribution does not copy its instruction
 text, examples, or code. The original project is available at
 https://github.com/hardikpandya/stop-slop under the following MIT license.
+The Polish language pack draws on the same editing lineage; its examples and
+scanner implementation were written for this repository.
 
 MIT License
 

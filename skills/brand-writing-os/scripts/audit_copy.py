@@ -32,6 +32,13 @@ NUMBER_RE = re.compile(
 QUOTE_RE = re.compile(r"(?:[„“\"])([^\n\"”]{6,}?)(?:[”\"])")
 URL_RE = re.compile(r"https?://\S+")
 WORD_RE = re.compile(r"[^\W\d_]+", re.UNICODE)
+PL_TELLS = (
+    ("empty opener", r"\b(?:w dzisiejszych czasach|w dobie\b|warto zauważyć, że|należy podkreślić, że|nie jest tajemnicą, że|prawda jest taka, że)"),
+    ("inflated emphasis", r"\b(?:to kluczowe|i to zmienia wszystko|nie sposób przecenić)\b"),
+    ("vague offer", r"\b(?:kompleksowe rozwiązania|holistyczne podejście|szeroki wachlarz usług|wartość dodana)\b"),
+    ("meta commentary", r"\b(?:przyjrzyjmy się temu bliżej|w dalszej części omówimy)\b"),
+    ("empty conclusion", r"\b(?:potencjał jest ogromny|to dopiero początek)\b"),
+)
 
 
 @dataclass(frozen=True)
@@ -52,6 +59,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--claims", type=Path)
     parser.add_argument("--source", action="append", default=[], type=Path)
     parser.add_argument("--channel")
+    parser.add_argument("--language", choices=("pl",), help="Enable built-in Polish editorial tell warnings")
     parser.add_argument("--format", choices=("text", "json"), default="text")
     parser.add_argument("--strict", action="store_true", help="Treat warnings as failures")
     return parser.parse_args()
@@ -170,6 +178,20 @@ def add_replacement_issues(
                     str(path),
                     line_number(text, offset),
                     f"Profile prefers {preferred!r} instead of {avoided!r}",
+                )
+            )
+
+
+def add_polish_issues(issues: list[Issue], text: str, path: Path) -> None:
+    for label, pattern in PL_TELLS:
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            issues.append(
+                Issue(
+                    "warning",
+                    "polish-tell",
+                    str(path),
+                    line_number(text, match.start()),
+                    f"Review {label}: {match.group(0)!r}",
                 )
             )
 
@@ -315,6 +337,7 @@ def scan_draft(
     evidence: str,
     has_evidence: bool,
     channel: str | None,
+    language: str | None,
 ) -> list[Issue]:
     issues: list[Issue] = []
     voice = profile.get("voice", {})
@@ -371,6 +394,8 @@ def scan_draft(
         "watch-pattern",
     )
     add_replacement_issues(issues, text, path, voice.get("term_replacements"))
+    if language == "pl":
+        add_polish_issues(issues, text, path)
 
     for required in configured_list(voice, "required_phrases"):
         if required.casefold() not in text.casefold():
@@ -496,7 +521,7 @@ def main() -> int:
         issues: list[Issue] = []
         issues.extend(claim_issues)
         for path, text in drafts:
-            issues.extend(scan_draft(path, text, profile, evidence, has_evidence, args.channel))
+            issues.extend(scan_draft(path, text, profile, evidence, has_evidence, args.channel, args.language))
         if len(drafts) > 1:
             issues.extend(batch_issues(drafts))
     except ValueError as error:
