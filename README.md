@@ -35,7 +35,7 @@ Run from the project where the skill should be available:
 
 ```bash
 DO_NOT_TRACK=1 npx --yes skills@1.5.19 add \
-  https://github.com/kuliberdalabs/brand-writing-os/tree/main \
+  https://github.com/kuliberdalabs/brand-writing-os/tree/v0.2.0 \
   --skill brand-writing-os \
   -a codex -a claude-code -y
 ```

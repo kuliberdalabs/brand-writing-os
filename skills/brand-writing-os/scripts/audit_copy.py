@@ -38,6 +38,20 @@ PL_TELLS = (
     ("vague offer", r"\b(?:kompleksowe rozwiązania|holistyczne podejście|szeroki wachlarz usług|wartość dodana)\b"),
     ("meta commentary", r"\b(?:przyjrzyjmy się temu bliżej|w dalszej części omówimy)\b"),
     ("empty conclusion", r"\b(?:potencjał jest ogromny|to dopiero początek)\b"),
+    ("corrective negation", r"\bto nie jest\s+[^.!?\n]{2,80}\.\s*to\s+[^.!?\n]{2,80}[.!?]"),
+    ("contrast mold", r"\bnie chodzi o\s+[^,.!?\n]{2,80},?\s+(?:ale|lecz)\s+o\s+[^.!?\n]{2,80}"),
+    ("additive contrast", r"\bnie tylko\s+[^,.!?\n]{2,80},?\s+ale\s+(?:również|także)\s+[^.!?\n]{2,80}"),
+    ("corrective contrast", r"\bnie\s+(?!tylko\b|chodzi\b|jest\b)[^,.!?\n]{2,60},?\s+(?:tylko|lecz)\s+[^.!?\n]{2,80}"),
+    ("negative listing", r"\bnie\s+[^.!?…\n]{2,60}(?:\.{1,3}|…)[ \t]+nie\s+[^.!?…\n]{2,60}(?:\.{1,3}|…)[ \t]+[^.!?\n]{2,80}"),
+    ("dramatic full stop", r"(?m)^[ \t]*[^.!?\n]{2,100}\.\s*kropka\."),
+    ("dramatic one word", r"\bjedno słowo\s*:\s*[^.!?\n]{2,60}"),
+    ("dramatic ending", r"(?m)^[ \t]*[^.!?\n]{2,100}\.\s*i tyle\."),
+    ("rhetorical what if", r"\ba co gdyby\b[^?\n]{0,120}\?"),
+    ("rhetorical prompt", r"\bpomyśl o tym\s*:"),
+    ("rhetorical prompt", r"\bi wiesz co\s*\?"),
+    ("question answer opener", r"(?m)^[ \t]*[A-ZĄĆĘŁŃÓŚŹŻ][^?\n.!]{4,100}\?[ \t]+[A-ZĄĆĘŁŃÓŚŹŻ][^.!?\n]{3,100}[.!?]"),
+    ("summary bow", r"(?m)^[ \t]*(?:to domyka\b|podsumowując\b)"),
+    ("anglicism", r"\b(?:mindset(?:u|em)?|roadmap(?:a|y|ę|ie|ą|ami)?|stakeholder(?:zy|ów|om|ami)?|deliverables?|leverage|insight(?:u|y|ów|em)?|feedback(?:u|iem|i)?|game[ -]changer(?:a|em|y|ów)?)\b"),
 )
 
 

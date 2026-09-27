@@ -126,6 +126,61 @@ class AuditCopyTests(unittest.TestCase):
             result = self.run_audit(str(draft), "--language", "pl", "--strict")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_polish_structural_tells_have_distinct_labels(self) -> None:
+        cases = {
+            "To nie jest plan. To obietnica.": "corrective negation",
+            "Nie chodzi o tempo, ale o wynik.": "contrast mold",
+            "Nie tylko pisze, ale również sprawdza.": "additive contrast",
+            "Nie plan, tylko wynik.": "corrective contrast",
+            "Nie cena... Nie termin... Liczy się zakres.": "negative listing",
+            "NIE cena… NIE termin… Liczy się zakres.": "negative listing",
+            "Wynik. Kropka.": "dramatic full stop",
+            "Jedno słowo: wynik.": "dramatic one word",
+            "Wynik. I tyle.": "dramatic ending",
+            "A CO GDYBY zespół zaczął dziś?": "rhetorical what if",
+            "POMYŚL O TYM: zespół już czeka.": "rhetorical prompt",
+            "I WIESZ CO? Zespół już czeka.": "rhetorical prompt",
+            "Czy to ma sens? Zespół już czeka.": "question answer opener",
+            "TO DOMYKA serię.": "summary bow",
+            "PODSUMOWUJĄC, plan jest gotowy.": "summary bow",
+            "MINDSET zespołu się zmienił.": "anglicism",
+            "Roadmapę już zapisano.": "anglicism",
+            "STAKEHOLDERZY czekają.": "anglicism",
+            "Deliverables są gotowe.": "anglicism",
+            "Leverage jest tu ważne.": "anglicism",
+            "INSIGHT jest trafny.": "anglicism",
+            "Feedback jest gotowy.": "anglicism",
+            "Game changer już nadszedł.": "anglicism",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            draft = Path(directory) / "draft.md"
+            for text, label in cases.items():
+                with self.subTest(text=text):
+                    draft.write_text(text + "\n", encoding="utf-8")
+                    result = self.run_audit(str(draft), "--language", "pl", "--format", "json")
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    payload = json.loads(result.stdout)
+                    labels = [issue["message"] for issue in payload["issues"] if issue["code"] == "polish-tell"]
+                    self.assertTrue(any(message.startswith(f"Review {label}:") for message in labels), labels)
+
+    def test_polish_tells_do_not_match_ordinary_negation_or_substrings(self) -> None:
+        clean = (
+            "nie\n"
+            "Nie wiem, czy plan jest gotowy.\n"
+            "To nie jest jeszcze gotowe.\n"
+            "Nie tylko dziś pracujemy.\n"
+            "Nie ma uwag do planu.\n"
+            "Zespół nie zebrał informacji zwrotnej.\n"
+            "Omawiamy stabilność i wyniki prac.\n"
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            draft = Path(directory) / "draft.md"
+            draft.write_text(clean, encoding="utf-8")
+            result = self.run_audit(str(draft), "--language", "pl", "--format", "json")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            payload = json.loads(result.stdout)
+            self.assertFalse([issue for issue in payload["issues"] if issue["code"] == "polish-tell"])
+
     def test_decimal_does_not_approve_a_different_whole_number(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
